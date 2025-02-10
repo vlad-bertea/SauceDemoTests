@@ -1,10 +1,16 @@
 package utils;
 
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.ProductsPage;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HelperMethods {
@@ -65,5 +71,30 @@ public class HelperMethods {
             }
         }
         return productsMatch && pricesMatch;
+    }
+
+    public static void acceptFacebookCookies(WebDriver driver) {
+            driver.findElement(By.xpath("//div[@class='x1ja2u2z x78zum5 x2lah0s " +
+                    "x1n2onr6 xl56j7k x6s0dn4 xozqiw3 x1q0g3np xi112ho x17zwfj4 x585lrc x1403ito x972fbf xcfux6l " +
+                    "x1qhh985 xm0m39n x9f619 xn6708d x1ye3gou xtvsq51 x1r1pt67']")).click();
+        }
+
+    public static void checkSocialMediaRedirects(WebDriver driver,
+                                          String socialMediaType,
+                                          String expectedPageTitle,
+                                          ProductsPage productsPage) {
+        String twitterWaitElementXpath = "//div[@class='css-175oi2r r-18u37iz r-1w6e6rj r-6gpygo r-14gqq1x']";
+        productsPage.getFooterButton(driver, socialMediaType).click();
+        List<String> handles = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(handles.get(1));
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(5000));
+        if (socialMediaType.equals("twitter")) {
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(twitterWaitElementXpath)));
+        } else if (socialMediaType.equals("facebook")) {
+            HelperMethods.acceptFacebookCookies(driver);
+        }
+
+        Assertions.assertEquals(expectedPageTitle, driver.getTitle());
     }
 }

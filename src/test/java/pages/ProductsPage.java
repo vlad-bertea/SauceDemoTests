@@ -16,7 +16,7 @@ public class ProductsPage extends BasePage {
     @FindBy(xpath = "//div[@id='shopping_cart_container']")
     private WebElement cartButton;
 
-    private final ArrayList<Map<String, String>> allProducts;
+    private ArrayList<Map<String, String>> allProducts = new ArrayList<>();
     private ArrayList<Map<String, String>> productsInCart;
 
     public ProductsPage(WebDriver driver) {
@@ -66,5 +66,10 @@ public class ProductsPage extends BasePage {
             return false;
         }
         return true;
+    }
+
+    public WebElement getFooterButton(WebDriver driver, String socialMediaType) {
+        String socialMediaButtonXpath = "//li[@class='social_%s']";
+        return driver.findElement(By.xpath(String.format(socialMediaButtonXpath, socialMediaType)));
     }
 }
