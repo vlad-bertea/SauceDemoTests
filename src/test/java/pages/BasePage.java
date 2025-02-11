@@ -9,15 +9,13 @@ public class BasePage {
 
     @FindBy(xpath = "//span[@class='title']")
     WebElement pageTitle;
-
     protected WebElement driver;
 
-    public BasePage(WebDriver driver) {
+    protected BasePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         }
 
     public String getPageTitle() {
         return this.pageTitle.getText();
     }
-
 }

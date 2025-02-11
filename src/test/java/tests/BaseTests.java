@@ -7,12 +7,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import pages.LoginPage;
 import utils.TestData;
 
+import java.time.Duration;
+
 public class BaseTests {
 
     protected WebDriver driver;
+    private Duration duration;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws InterruptedException {
         driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com/");
     }
